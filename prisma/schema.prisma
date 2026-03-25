@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model ExerciseVariation {
+  id   String @id @default(uuid())
+  name String
+}
+
+model WorkoutTemplate {
+  id   String @id @default(uuid())
+  name String
+
+  exercises WorkoutTemplateExercise[]
+}
+
+model WorkoutTemplateExercise {
+  id                  String @id @default(uuid())
+  templateId          String
+  exerciseVariationId String
+  orderIndex          Int
+
+  template  WorkoutTemplate  @relation(fields: [templateId], references: [id])
+  variation ExerciseVariation @relation(fields: [exerciseVariationId], references: [id])
+}
